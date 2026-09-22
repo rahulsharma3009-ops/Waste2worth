@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login | Waste2Worth{% endblock %}
+{% block content %}
+<div class="auth-page admin-auth"><div class="auth-card compact"><div class="auth-header"><div class="mini-mark dark">A</div><span class="eyebrow">Restricted access</span><h2>Administrator login</h2><p>Use the portal administrator credentials.</p></div><form method="post" class="form-grid"><label>Admin ID<input type="email" name="email" placeholder="admin@gmail.com" required></label><label>Password<input type="password" name="password" required></label><button class="btn btn-dark btn-block" type="submit">Enter Admin Console →</button></form><div class="security-note">Admin registration is disabled. Only configured administrator credentials can access this console.</div></div></div>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Admin | Buyers{% endblock %}
+{% block content %}
+<section class="admin-head"><div class="container page-head-row"><div><span class="eyebrow">Admin / Buyers</span><h1>Buyer accounts</h1><p>View customer activity and account status.</p></div><a class="btn btn-dark" href="{{ url_for('admin_dashboard') }}">← Console</a></div></section>
+<section class="container section"><div class="panel"><div class="table-wrap"><table><thead><tr><th>Buyer</th><th>Gmail</th><th>Phone</th><th>Orders</th><th>Spend</th><th>Status</th></tr></thead><tbody>{% for b in buyers %}<tr><td><strong>{{ b.name }}</strong><small>Joined {{ b.created_at|datetime_short }}</small></td><td>{{ b.email }}</td><td>{{ b.phone or '—' }}</td><td>{{ b.order_count }}</td><td>{{ b.spend|money }}</td><td><span class="status {{ 'cancelled' if b.is_blacklisted else 'completed' }}">{{ 'Blacklisted' if b.is_blacklisted else 'Active' }}</span></td></tr>{% else %}<tr><td colspan="6">No buyers yet.</td></tr>{% endfor %}</tbody></table></div></div></section>
+{% endblock %}

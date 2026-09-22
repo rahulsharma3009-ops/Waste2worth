@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Admin | Orders{% endblock %}
+{% block content %}
+<section class="admin-head"><div class="container page-head-row"><div><span class="eyebrow">Admin / Orders</span><h1>Platform orders</h1><p>Full visibility across marketplace transactions.</p></div><a class="btn btn-dark" href="{{ url_for('admin_dashboard') }}">← Console</a></div></section>
+<section class="container section"><div class="panel"><div class="table-wrap"><table><thead><tr><th>Item</th><th>Seller</th><th>Buyer</th><th>Qty</th><th>Total</th><th>Status</th><th>Placed</th></tr></thead><tbody>{% for o in orders %}<tr><td><strong>{{ o.item_name }}</strong><small>{{ o.store_name }}</small></td><td>{{ o.seller_name }}<small>{{ o.seller_email }}</small></td><td>{{ o.buyer_name }}<small>{{ o.buyer_email }}</small></td><td>{{ '%g'|format(o.quantity) }} {{ o.unit }}</td><td>{{ o.total_price|money }}</td><td><span class="status {{ o.status }}">{{ o.status|title }}</span></td><td>{{ o.created_at|datetime_short }}</td></tr>{% else %}<tr><td colspan="7">No orders yet.</td></tr>{% endfor %}</tbody></table></div></div></section>
+{% endblock %}

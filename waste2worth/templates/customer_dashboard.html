@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Customer Dashboard | Waste2Worth{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container page-head-row"><div><span class="eyebrow">Customer workspace</span><h1>Welcome, {{ current_user['name'] }}.</h1><p>Buy and sell materials from one place.</p></div><div class="head-actions"><a class="btn btn-outline" href="{{ url_for('buy') }}">Browse marketplace</a><a class="btn btn-primary" href="{{ url_for('sell') }}">＋ List material</a></div></div></section>
+<section class="container dashboard-grid">
+  <div class="dashboard-main">
+    <div class="metric-grid three"><div class="metric"><span>Your listings</span><strong>{{ stats.listings }}</strong><small>materials listed</small></div><div class="metric"><span>Your orders</span><strong>{{ stats.orders }}</strong><small>buying activity</small></div><div class="metric"><span>Sales value</span><strong>{{ stats.sales|money }}</strong><small>orders placed for your store</small></div></div>
+    {% if not store %}<div class="onboard-banner"><div><span class="eyebrow">Step 1</span><h2>Create your Store ID</h2><p>Unlock selling, your owner identity card and a public business profile.</p></div><a class="btn btn-primary" href="{{ url_for('create_store') }}">Create Store ID →</a></div>{% else %}
+      <div class="store-banner"><div class="store-badge">♻</div><div><span class="eyebrow">Your store</span><h2>{{ store.store_name }}</h2><p>{{ store.store_id }} · {{ store.city }}</p></div><a class="btn btn-outline" href="{{ url_for('store_profile') }}">View Store</a></div>
+    {% endif %}
+    <div class="panel"><div class="panel-head"><div><h2>Recent orders</h2><p>Buying and selling activity.</p></div><a href="{{ url_for('orders') }}" class="text-link">View all →</a></div>
+      {% if recent_orders %}<div class="table-wrap"><table><thead><tr><th>Item</th><th>Party</th><th>Qty</th><th>Total</th><th>Status</th></tr></thead><tbody>{% for o in recent_orders %}<tr><td><strong>{{ o.item_name }}</strong><small>{{ o.store_name }}</small></td><td>{{ o.seller_name if o.buyer_name == current_user['name'] else o.buyer_name }}</td><td>{{ '%g'|format(o.quantity) }} {{ o['unit'] }}</td><td>{{ o.total_price|money }}</td><td><span class="status {{ o.status }}">{{ o.status|title }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-inline">No orders yet. <a href="{{ url_for('buy') }}">Explore the marketplace.</a></div>{% endif %}
+    </div>
+  </div>
+  <aside class="dashboard-side"><div class="quick-card"><span class="eyebrow">Quick actions</span><a href="{{ url_for('sell') }}">📦 List material <b>→</b></a><a href="{{ url_for('buy') }}">🛒 Buy material <b>→</b></a><a href="{{ url_for('orders') }}">🚚 Manage orders <b>→</b></a><a href="{{ url_for('impact') }}">🌱 View impact <b>→</b></a>{% if store %}<a href="{{ url_for('store_id_card') }}">🪪 Print owner ID <b>→</b></a>{% endif %}</div><div class="tips-card"><span class="eyebrow">Marketplace tip</span><h3>Better listings get better matches.</h3><p>Add clear photos, exact quantities and accurate material categories.</p></div></aside>
+</section>
+{% endblock %}

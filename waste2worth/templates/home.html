@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Waste2Worth | Turn Waste Into Worth{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">♻ Circular economy marketplace</span>
+      <h1>Waste isn't the end.<br><span>It's someone's next raw material.</span></h1>
+      <p class="hero-copy">Waste2Worth connects businesses that have reusable and recyclable material with recyclers, upcyclers and manufacturers who need it—keeping resources in the loop and value in the local economy.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('customer_signup') }}">Start your store →</a>
+        <a class="btn btn-ghost btn-lg" href="{{ url_for('about') }}">Explore the model</a>
+      </div>
+      <div class="hero-proof"><span>✓ Verified store profiles</span><span>✓ Smart material matching</span><span>✓ Impact tracking</span></div>
+    </div>
+    <div class="hero-art">
+      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+      <div class="hero-center-card">
+        <div class="recycle-icon">♻</div>
+        <div class="hc-title">Cardboard available</div>
+        <div class="hc-sub">80 kg • Gomti Nagar</div>
+        <div class="match-badge">92% buyer match</div>
+      </div>
+      <div class="float-card fc-a"><span class="fc-icon">📦</span><div><strong>Material found</strong><small>80 kg cardboard</small></div></div>
+      <div class="float-card fc-b"><span class="fc-icon">🏭</span><div><strong>Buyer nearby</strong><small>3.2 km away</small></div></div>
+      <div class="float-card fc-c"><span class="fc-icon">🌱</span><div><strong>Impact logged</strong><small>Every transaction counts</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-strip">
+  <div class="container stat-grid">
+    <div><strong>{{ stats.active_listings }}</strong><span>active material listings</span></div>
+    <div><strong>{{ stats.stores }}</strong><span>stores onboarded</span></div>
+    <div><strong>{{ stats.orders }}</strong><span>trades placed</span></div>
+    <div><strong>{{ '%.0f'|format(stats.material_kg) }}</strong><span>units currently listed</span></div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head"><div><span class="eyebrow">Marketplace</span><h2>Fresh material listings</h2></div><a class="text-link" href="{{ url_for('customer_login') }}">See full marketplace →</a></div>
+  <div class="card-grid three">
+    {% for item in featured %}
+      <article class="listing-card">
+        <div class="listing-media">
+          {% if item.image_filename %}<img src="{{ url_for('static', filename='uploads/' ~ item.image_filename) }}" alt="{{ item.item_name }}">{% else %}<span class="material-emoji">{{ {'cardboard':'📦','paper':'📄','plastic':'🧴','glass':'🍾','metal':'🥫','textile':'👕','organic':'🍃','e-waste':'💻','other':'♻️'}.get(item.category,'♻️') }}</span>{% endif %}
+          <span class="pill">{{ item.category|title }}</span>
+        </div>
+        <div class="listing-body"><div class="listing-top"><h3>{{ item.item_name }}</h3><span class="price">{{ item.price|money }}/{{ item.unit }}</span></div><p>{{ item.about_item|truncate(110) }}</p><div class="listing-meta"><span>{{ '%g'|format(item.quantity) }} {{ item.unit }} available</span><span>{{ item.city }}</span></div><a href="{{ url_for('customer_login') }}" class="btn btn-small btn-outline">View & buy</a></div>
+      </article>
+    {% else %}
+      <div class="empty-state full"><div class="empty-icon">♻️</div><h3>No listings yet</h3><p>Be the first business to put a valuable material back into circulation.</p><a class="btn btn-primary" href="{{ url_for('customer_signup') }}">Create a Store ID</a></div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section alt-section">
+  <div class="container feature-grid">
+    <div><span class="eyebrow">Why Waste2Worth</span><h2>Fix the missing connection between waste and demand.</h2><p>One shop's unwanted cardboard can be another manufacturer's input. Our platform makes that relationship searchable, measurable and easier to transact.</p><div class="callout"><strong>Core insight</strong><span>We don't just have a waste problem. We have a resource-coordination problem.</span></div></div>
+    <div class="feature-list">
+      <div class="feature-row"><span>01</span><div><h3>List material</h3><p>Describe what your business has, how much and how often.</p></div></div>
+      <div class="feature-row"><span>02</span><div><h3>Find a match</h3><p>Filter by material, price, stock and nearby store location.</p></div></div>
+      <div class="feature-row"><span>03</span><div><h3>Trade safely</h3><p>Verified store identity, reporting tools and admin moderation help protect the marketplace.</p></div></div>
+      <div class="feature-row"><span>04</span><div><h3>Measure impact</h3><p>Track traded material and build a visible circularity story for your business.</p></div></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

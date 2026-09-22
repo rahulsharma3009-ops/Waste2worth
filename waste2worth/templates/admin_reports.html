@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Admin | Reports{% endblock %}
+{% block content %}
+<section class="admin-head"><div class="container page-head-row"><div><span class="eyebrow">Admin / Moderation</span><h1>Reports queue</h1><p>Review user-submitted concerns about listings.</p></div><a class="btn btn-dark" href="{{ url_for('admin_dashboard') }}">← Console</a></div></section>
+<section class="container section"><div class="panel"><div class="table-wrap"><table><thead><tr><th>Listing</th><th>Store</th><th>Reporter</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead><tbody>{% for r in reports %}<tr><td><strong>{{ r.item_name }}</strong></td><td>{{ r.store_name }}</td><td>{{ r.reporter_name }}<small>{{ r.reporter_email }}</small></td><td>{{ r.reason }}</td><td><span class="status {{ 'placed' if r.status=='open' else 'completed' }}">{{ r.status|title }}</span></td><td>{% if r.status=='open' %}<form method="post" action="{{ url_for('resolve_report', report_id=r.id) }}"><button class="btn btn-small btn-outline" type="submit">Resolve</button></form>{% else %}—{% endif %}</td></tr>{% else %}<tr><td colspan="6"><div class="empty-inline">No reports. That's a good sign.</div></td></tr>{% endfor %}</tbody></table></div></div></section>
+{% endblock %}
